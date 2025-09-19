@@ -17,7 +17,7 @@ app.post('/webhook', (req, res) => {
       {
         type: "play_audio",
         params: {
-          url: "https://obscure-springs-43753-1cfbe8e7624d.herokuapp.com/sound.mp3",
+          url: "https://goku39919.github.io/musicaelevador/Elevatormusic.mp3",
           duration: 30
         }
       }
