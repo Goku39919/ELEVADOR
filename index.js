@@ -13,14 +13,14 @@ app.post('/api/audio', (req, res) => {
     return res.status(400).json({ error: 'La URL del audio es inválida o falta.' });
   }
 
-  const audioDuration = Number(duration) || 30; // Valor por defecto si no se pasa duración
+  const audioDuration = Number(duration) || 15; // Valor por defecto si no se pasa duración
 
   res.json({
     actions: [
       {
         type: "play_audio",
         params: {
-          url: "https://obscure-springs-43753-1cfbe8e7624d.herokuapp.com/sound.mp3",
+          url: audio_url,
           duration: audioDuration
         }
       }
