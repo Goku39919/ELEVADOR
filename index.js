@@ -1,28 +1,38 @@
 const express = require('express');
-const path = require('path');
 const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(express.json());
 
-// ✅ Ruta del webhook
-app.post('/webhook', (req, res) => {
+// ✅ Ruta API que genera la acción para Bland.ai
+app.post('/api/audio', (req, res) => {
+  const { audio_url, duration } = req.body;
+
+  // Validación básica
+  if (!audio_url || typeof audio_url !== 'string' || !audio_url.startsWith('http')) {
+    return res.status(400).json({ error: 'La URL del audio es inválida o falta.' });
+  }
+
+  const audioDuration = Number(duration) || 30; // Valor por defecto si no se pasa duración
+
   res.json({
     actions: [
       {
         type: "play_audio",
         params: {
-          url: `https://${req.headers.host}/sound.mp3`, // 💡 Usa el mismo dominio del webhook
-          duration: 30
+          url: https://obscure-springs-43753-1cfbe8e7624d.herokuapp.com/sound.mp3,
+          duration: audioDuration
         }
       }
     ]
   });
 });
 
-// ✅ Servir archivos estáticos como sound.mp3
-app.use(express.static(path.join(__dirname, 'public')));
+// ✅ Ruta raíz opcional
+app.get('/', (req, res) => {
+  res.send('🎧 API de reproducción de audio para Bland.ai');
+});
 
 app.listen(port, () => {
-  console.log(`🚀 Servidor escuchando en http://localhost:${port}`);
+  console.log(`🚀 API escuchando en http://localhost:${port}`);
 });
