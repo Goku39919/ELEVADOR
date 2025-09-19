@@ -1,23 +1,18 @@
-// Instala express si no lo tienes: npm install express
 const express = require('express');
+const path = require('path');
 const app = express();
-const port = 3000; // Puedes cambiar este puerto si usas otro
+const port = process.env.PORT || 3000;
 
 app.use(express.json());
 
+// ✅ Ruta del webhook
 app.post('/webhook', (req, res) => {
-  console.log('📞 Webhook recibido de Bland.ai');
-
-  // Opcional: puedes imprimir lo que manda bland
-  console.log(req.body);
-
-  // Respuesta al bot para que reproduzca el audio
   res.json({
     actions: [
       {
         type: "play_audio",
         params: {
-          url: "https://obscure-springs-43753-1cfbe8e7624d.herokuapp.com/sound.mp3",
+          url: `https://${req.headers.host}/sound.mp3`, // 💡 Usa el mismo dominio del webhook
           duration: 30
         }
       }
@@ -25,6 +20,9 @@ app.post('/webhook', (req, res) => {
   });
 });
 
+// ✅ Servir archivos estáticos como sound.mp3
+app.use(express.static(path.join(__dirname, 'public')));
+
 app.listen(port, () => {
-  console.log(`🚀 Webhook escuchando en http://localhost:${port}/webhook`);
+  console.log(`🚀 Servidor escuchando en http://localhost:${port}`);
 });
