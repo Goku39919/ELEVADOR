@@ -12,7 +12,7 @@ app.post('/webhook', (req, res) => {
       {
         type: "play_audio",
         params: {
-          url: `https://${req.headers.host}/Elevatormusic.mp3`, // 💡 Usa el mismo dominio del webhook
+          url: `https://${req.headers.host}/sound.mp3`, // 💡 Usa el mismo dominio del webhook
           duration: 30
         }
       }
